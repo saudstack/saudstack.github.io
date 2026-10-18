@@ -1,51 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Saud Mukri</title>
-  <meta name="description" content="Projects and notes from Saud Mukri: IT systems, data, and digital marketing.">
-  <meta property="og:title" content="Saud Mukri">
-  <meta property="og:description" content="Projects and notes from Saud Mukri: IT systems, data, and digital marketing.">
-  <meta property="og:url" content="https://saudstack.github.io">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saud Mukri — IT systems, data and digital marketing</title>
+<meta name="description" content="Portfolio of Saud Mukri, Doha. IT systems, analytics, SEO and small tools built with AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Palette sampled from the portrait. If a seam shows around the photo, nudge --peach. */
+    --peach: #FFDBBC;
+    --ink: #111111;
+    --gray: #5f5a55;
+    --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --text: "Newsreader", Georgia, "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--peach);
+    color: var(--ink);
+    font-family: var(--text);
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  /* Film grain over everything, to echo the photo */
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    opacity: .13;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: .2em; }
+  a:hover { background: var(--ink); color: var(--peach); text-decoration: none; }
+  a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: end;
+    min-height: 92svh;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 0 0 clamp(1.25rem, 5vw, 4rem);
+  }
+  .hero-text { padding-bottom: clamp(2rem, 8vh, 5rem); }
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-stretch: 62%;
+    font-weight: 900;
+    font-size: clamp(5rem, 17vw, 13rem);
+    line-height: .8;
+    letter-spacing: -.025em;
+  }
+  .lede {
+    margin: 2rem 0 0;
+    max-width: 24rem;
+    font-size: 1.35rem;
+    line-height: 1.4;
+  }
+  .portrait { align-self: end; }
+  .portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* fade the photo's left edge into the page so the backgrounds merge */
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 22%);
+            mask-image: linear-gradient(to right, transparent 0, #000 22%);
+  }
+
+  /* Content */
+  .wrap { max-width: 64rem; margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 4rem); }
+  section { margin-top: clamp(4rem, 10vw, 7rem); }
+  h2 {
+    margin: 0 0 1.5rem;
+    padding-top: .9rem;
+    border-top: 4px solid var(--ink);
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -.01em;
+  }
+  .about { max-width: 40rem; }
+  .about p { margin: 0 0 1.2rem; }
+
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    gap: .5rem 2rem;
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--ink);
+  }
+  .row:last-child { border-bottom: 1px solid var(--ink); }
+  .row h3 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.15;
+  }
+  .row p { margin: 0 0 .4rem; max-width: 36rem; }
+  .meta { color: var(--gray); font-size: 1rem; font-style: italic; }
+
+  .contact a {
+    display: inline-block;
+    font-family: var(--display);
+    font-stretch: 75%;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 6vw, 3.2rem);
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    overflow-wrap: anywhere;
+  }
+  .links { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.2rem; }
+
+  footer {
+    margin: 6rem auto 0;
+    padding-bottom: 2.5rem;
+    color: var(--gray);
+    font-size: .95rem;
+  }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; min-height: 0; padding-right: clamp(1.25rem, 5vw, 4rem); padding-top: 3rem; }
+    .portrait { margin-right: calc(-1 * clamp(1.25rem, 5vw, 4rem)); }
+    .portrait img { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 15%); mask-image: linear-gradient(to bottom, transparent 0, #000 15%); }
+    .row { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
-<main>
 
-  <h1>Saud Mukri</h1>
-  <p class="tagline">IT &amp; digital marketing • Doha, Qatar • He/Him</p>
+<header class="hero">
+  <div class="hero-text">
+    <h1>Saud<br>Mukri</h1>
+    <p class="lede">IT systems, data and digital marketing. Based in Doha.</p>
+  </div>
+  <div class="portrait">
+    <img src="saud.png" alt="Portrait of Saud Mukri, black and white on a peach background" width="1254" height="1254">
+  </div>
+</header>
 
-  <p>
-    I work where business systems, data, and marketing meet. I've set up CRMs
-    and analytics, built websites and campaigns from scratch, and written
-    Android apps. I like turning a vague requirement into something that works.
-  </p>
-  <p>
-    This is where I build things in public: small tools, dashboards, and
-    teardowns, with notes on how they were made.
-  </p>
+<main class="wrap">
 
-  <h2>projects</h2>
-  <ul>
-    <li class="entry">
-      <span class="id">P01</span>
-      <span><a href="/projects/this-site/">This website</a><span class="meta">A plain HTML page with no framework • 2026-10-15</span></span>
-    </li>
-  </ul>
+  <section class="about" aria-labelledby="about">
+    <h2 id="about">About</h2>
+    <p>I turn messy operational problems into working systems: CRM setups, tracking and reporting, SEO and paid campaigns. I have five years across business development and digital marketing, a BSc in Information Technology and an MBA in Digital &amp; Telecom Management.</p>
+    <p>Lately I build small tools with AI, mostly for the marketing and analytics work I already do.</p>
+  </section>
 
-  <h2>contact</h2>
-  <ul>
-    <li><a href="mailto:saud.doha77@gmail.com">Email</a></li>
-    <li><a href="https://www.linkedin.com/in/your-handle/">LinkedIn</a></li>
-  </ul>
+  <section aria-labelledby="work">
+    <h2 id="work">Projects</h2>
+    <!-- Replace the # links with your real repo URLs. Delete a row if you have no code to show. -->
+    <article class="row">
+      <h3>Page Auditor</h3>
+      <div>
+        <p>Paste a web page and a target keyword. Get title and meta suggestions, keyword gaps, a readability score and a prioritised fix list.</p>
+        <p class="meta">Google AI Studio, Gemini API, JavaScript · <a href="https://github.com/saudstack">Code</a></p>
+      </div>
+    </article>
+    <article class="row">
+      <h3>Android e-commerce app</h3>
+      <div>
+        <p>Customer-facing shopping app with a payment gateway, inventory management and order tracking. Built as my BSc capstone.</p>
+        <p class="meta">Android, Java · 2019</p>
+      </div>
+    </article>
+    <article class="row">
+      <h3>This site</h3>
+      <div>
+        <p>One HTML file, no framework, hosted on GitHub Pages.</p>
+        <p class="meta">HTML, CSS · 2026</p>
+      </div>
+    </article>
+  </section>
 
-  <h2>links</h2>
-  <ul>
-    <li><a href="https://github.com/sp13">GitHub</a></li>
-  </ul>
+  <section aria-labelledby="bg">
+    <h2 id="bg">Background</h2>
+    <div class="row">
+      <h3>2026 – now</h3>
+      <div><p>Digital Marketing Consultant. SEO, paid media, analytics setup and reporting for clients.</p></div>
+    </div>
+    <div class="row">
+      <h3>2021 – 2026</h3>
+      <div><p>Business Development Lead, Servible Infotech. Built a multi-brand digital presence from zero with SEO, content and marketing automation.</p></div>
+    </div>
+    <div class="row">
+      <h3>2020 – 2021</h3>
+      <div><p>Assistant Manager and Growth Intern, Firework. Platform launch, partner onboarding, CRM reporting.</p></div>
+    </div>
+  </section>
+
+  <section class="contact" aria-labelledby="contact">
+    <h2 id="contact">Contact</h2>
+    <a href="mailto:saud.doha77@gmail.com">saud.doha77@gmail.com</a>
+    <div class="links">
+      <a href="https://www.linkedin.com/in/YOUR-HANDLE" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/saudstack" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>
 
 </main>
+
+<footer class="wrap">© 2026 Saud Mukri</footer>
+
 </body>
 </html>
