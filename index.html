@@ -5,14 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Saud Mukri — IT systems, data and digital marketing</title>
 <meta name="description" content="Portfolio of Saud Mukri, Doha. IT systems, analytics, SEO and small tools built with AI.">
+<meta property="og:title" content="Saud Mukri — IT systems, data and digital marketing">
+<meta property="og:description" content="Portfolio of Saud Mukri, Doha. IT systems, analytics, SEO and small tools built with AI.">
+<meta property="og:image" content="https://saudstack.github.io/saud.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Palette sampled from the portrait. If a seam shows around the photo, nudge --peach. */
-    --peach: #FFDBBC;
-    --ink: #111111;
+    /* Peach #FCD0B1 and ink #333333 sampled from the reference image. */
+    --peach: #FCD0B1;
+    --ink: #333333;
     --gray: #5f5a55;
     --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
     --text: "Newsreader", Georgia, "Times New Roman", serif;
@@ -26,15 +31,6 @@
     font-family: var(--text);
     font-size: 1.2rem;
     line-height: 1.6;
-  }
-  /* Film grain over everything, to echo the photo */
-  body::after {
-    content: "";
-    position: fixed; inset: 0;
-    pointer-events: none;
-    opacity: .13;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
   a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: .2em; }
   a:hover { background: var(--ink); color: var(--peach); text-decoration: none; }
@@ -121,6 +117,26 @@
   }
   .links { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.2rem; }
 
+
+  /* Tech fact */
+  .fact-btn {
+    font: inherit;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: .65rem 1.2rem;
+    color: var(--peach);
+    background: var(--ink);
+    border: 2px solid var(--ink);
+    cursor: pointer;
+  }
+  .fact-btn:hover { background: transparent; color: var(--ink); }
+  .fact-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .fact-btn[disabled] { opacity: .6; cursor: wait; }
+  #fact { margin-top: 1.5rem; max-width: 40rem; min-height: 6rem; }
+  #fact h3 { margin: 0 0 .3rem; font-family: var(--display); font-weight: 700; font-size: 1.35rem; line-height: 1.15; }
+  #fact p { margin: 0 0 .5rem; }
+
   footer {
     margin: 6rem auto 0;
     padding-bottom: 2.5rem;
@@ -156,30 +172,17 @@
     <p>Lately I build small tools with AI, mostly for the marketing and analytics work I already do.</p>
   </section>
 
+  <section aria-labelledby="fact-h">
+    <h2 id="fact-h">Tech fact</h2>
+    <button class="fact-btn" id="fact-btn" type="button">Show me a fact</button>
+    <div id="fact" aria-live="polite"></div>
+  </section>
+
   <section aria-labelledby="work">
     <h2 id="work">Projects</h2>
-    <!-- Replace the # links with your real repo URLs. Delete a row if you have no code to show. -->
-    <article class="row">
-      <h3>Page Auditor</h3>
-      <div>
-        <p>Paste a web page and a target keyword. Get title and meta suggestions, keyword gaps, a readability score and a prioritised fix list.</p>
-        <p class="meta">Google AI Studio, Gemini API, JavaScript · <a href="https://github.com/saudstack">Code</a></p>
-      </div>
-    </article>
-    <article class="row">
-      <h3>Android e-commerce app</h3>
-      <div>
-        <p>Customer-facing shopping app with a payment gateway, inventory management and order tracking. Built as my BSc capstone.</p>
-        <p class="meta">Android, Java · 2019</p>
-      </div>
-    </article>
-    <article class="row">
-      <h3>This site</h3>
-      <div>
-        <p>One HTML file, no framework, hosted on GitHub Pages.</p>
-        <p class="meta">HTML, CSS · 2026</p>
-      </div>
-    </article>
+    <!-- Filled automatically from your public GitHub repos (see script at the bottom) -->
+    <div id="repos"><p class="meta">Loading projects from GitHub...</p></div>
+    <noscript><p class="meta">Turn on JavaScript to see projects, or <a href="https://github.com/saudstack">view them on GitHub</a>.</p></noscript>
   </section>
 
   <section aria-labelledby="bg">
@@ -202,7 +205,7 @@
     <h2 id="contact">Contact</h2>
     <a href="mailto:saud.doha77@gmail.com">saud.doha77@gmail.com</a>
     <div class="links">
-      <a href="https://www.linkedin.com/in/saudmukri" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/saudmukri/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/saudstack" target="_blank" rel="noopener">GitHub</a>
     </div>
   </section>
@@ -211,5 +214,106 @@
 
 <footer class="wrap">© 2026 Saud Mukri</footer>
 
+<script>
+  // Builds the Projects list from your public GitHub repos.
+  const USER = 'saudstack';
+  const SKIP = ['saudstack.github.io'];   // repo names to hide
+  const box = document.getElementById('repos');
+
+  fetch('https://api.github.com/users/' + USER + '/repos?per_page=100&sort=pushed')
+    .then(res => { if (!res.ok) throw new Error(res.status); return res.json(); })
+    .then(repos => {
+      const list = repos.filter(r => !r.fork && !SKIP.includes(r.name));
+      box.textContent = '';
+      if (!list.length) { box.textContent = 'No public projects yet.'; return; }
+
+      list.forEach(r => {
+        const row = document.createElement('article');
+        row.className = 'row';
+
+        const h = document.createElement('h3');
+        const a = document.createElement('a');
+        a.href = r.html_url;
+        a.textContent = r.name.replace(/[-_]/g, ' ');
+        h.append(a);
+
+        const body = document.createElement('div');
+        const desc = document.createElement('p');
+        desc.textContent = r.description || 'No description yet.';
+        const meta = document.createElement('p');
+        meta.className = 'meta';
+        const updated = new Date(r.pushed_at).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+        meta.textContent = [r.language, 'Updated ' + updated].filter(Boolean).join(' · ');
+        body.append(desc, meta);
+
+        row.append(h, body);
+        box.append(row);
+      });
+    })
+    .catch(() => {
+      box.textContent = 'Could not load projects. ';
+      const a = document.createElement('a');
+      a.href = 'https://github.com/' + USER;
+      a.textContent = 'See them on GitHub.';
+      box.append(a);
+    });
+</script>
+<script>
+  // Tech fact: pulls a short summary from Wikipedia. Falls back to built-in facts if offline.
+  const TOPICS = ['Apollo_Guidance_Computer','ENIAC','ARPANET','Transistor','Grace_Hopper','Year_2000_problem',
+    'Morris_worm','Deep_Blue_(chess_computer)','Unix','Ada_Lovelace','Enigma_machine','Colossus_computer',
+    'Xerox_Alto','Mosaic_(web_browser)','Turing_test',"Moore's_law",'Difference_engine','Voyager_1'];
+  const FALLBACK = [
+    { title: 'The first computer bug', text: 'In 1947, operators found a real moth stuck in a relay of the Harvard Mark II and taped it into the logbook.' },
+    { title: 'The first email', text: 'In 1971, Ray Tomlinson sent the first networked email and chose the @ symbol to separate user from machine.' },
+    { title: 'Apollo Guidance Computer', text: 'It guided astronauts to the Moon with roughly 4 KB of erasable memory and 72 KB of read-only memory.' }
+  ];
+  const factBtn = document.getElementById('fact-btn');
+  const factBox = document.getElementById('fact');
+  let last = '';
+
+  function show(title, text, url) {
+    factBox.textContent = '';
+    const h = document.createElement('h3'); h.textContent = title;
+    const p = document.createElement('p'); p.textContent = text;
+    factBox.append(h, p);
+    if (url) {
+      const a = document.createElement('a');
+      a.href = url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = 'Read more on Wikipedia';
+      factBox.append(a);
+    }
+  }
+
+  function shorten(text) {
+    // keep whole sentences up to about 280 characters
+    const parts = text.split(/(?<=[.!?])\s+/);
+    let out = '';
+    for (const part of parts) {
+      if (out && (out + ' ' + part).length > 280) break;
+      out = out ? out + ' ' + part : part;
+    }
+    return out;
+  }
+
+  async function loadFact() {
+    factBtn.disabled = true;
+    let topic;
+    do { topic = TOPICS[Math.floor(Math.random() * TOPICS.length)]; } while (topic === last);
+    last = topic;
+    try {
+      const res = await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(topic));
+      if (!res.ok) throw new Error(res.status);
+      const d = await res.json();
+      show(d.title, shorten(d.extract), d.content_urls.desktop.page);
+    } catch (e) {
+      const f = FALLBACK[Math.floor(Math.random() * FALLBACK.length)];
+      show(f.title, f.text);
+    }
+    factBtn.textContent = 'Another fact';
+    factBtn.disabled = false;
+  }
+  factBtn.addEventListener('click', loadFact);
+</script>
 </body>
 </html>
