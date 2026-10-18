@@ -97,7 +97,20 @@
   .row p { margin: 0 0 .4rem; max-width: 36rem; }
   .meta { color: var(--gray); font-size: 1rem; font-style: italic; }
 
-  /* Random trivia */
+  /* Random trivia container and animations */
+  .aside {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+    transition: max-height 0.6s ease-out, opacity 0.5s ease-out, margin-top 0.5s ease-out;
+  }
+  .aside.revealed {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 3.5rem;
+  }
+
   .fact-btn {
     width: 100%;
     min-height: 48px;
@@ -131,14 +144,26 @@
   .opt.correct, .opt.correct[disabled] { background: var(--ink); color: var(--peach); }
   .opt.wrong { border-style: dashed; text-decoration: line-through; }
   .result { margin: 1rem 0 .9rem; }
+  .quiz-score { font-family: var(--display); font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; color: var(--gray); }
 
-  /* Trivia is a break, visually separate from the portfolio */
-  .aside { margin-top: 5rem; }
   .aside h2 { border-top: 2px dashed var(--ink); font-weight: 700; }
   .aside-note { margin: -.5rem 0 1.25rem; color: var(--gray); font-style: italic; }
 
-  footer { margin-top: 4rem; padding-bottom: 2.5rem; color: var(--gray); font-size: .95rem; }
-  .me { display: block; width: 6.5rem; height: auto; margin: 0 0 .75rem; }
+  footer { margin-top: 4rem; padding-bottom: 2.5rem; text-align: center; }
+  .me {
+    display: block;
+    width: 11rem;
+    height: auto;
+    margin: 0 auto .75rem;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .me:hover {
+    transform: scale(1.05);
+  }
+  .me.clicked {
+    transform: scale(0.92);
+  }
 
   /* ---------- Tablet and up ---------- */
   @media (min-width: 600px) {
@@ -157,7 +182,7 @@
     .lede { max-width: 24rem; font-size: 1.35rem; }
     .info { max-width: 26rem; }
     .info .mail { font-size: 1.7rem; }
-    .me { width: 8rem; }
+    .me { width: 13.5rem; }
     .wrap { max-width: 64rem; margin-left: auto; margin-right: auto; padding: 0 var(--pad); }
     section { margin-top: 6rem; }
     .row { grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: .5rem 2rem; }
@@ -211,19 +236,17 @@
     </div>
   </section>
 
-
-  <section class="aside" aria-labelledby="fact-h">
-    <h2 id="fact-h">Random trivia</h2>
-    <p class="aside-note">A quick quiz, shuffled each time.</p>
-    <button class="fact-btn" id="start-btn" type="button">Ask me a question</button>
-    <div id="quiz"></div>
-  </section>
-
 </main>
 
 <footer class="wrap">
-  <img class="me" src="saud.png" alt="Saud Mukri" width="1254" height="1254">
-  <p>© 2026 Saud Mukri</p>
+  <img class="me" id="profile-img" src="saud.png" alt="Saud Mukri" width="1254" height="1254" title="Click me">
+  
+  <section class="aside" id="trivia-section" aria-labelledby="fact-h">
+    <h2 id="fact-h">Random trivia</h2>
+    <p class="aside-note">A quick 5-question quiz, shuffled each time.</p>
+    <button class="fact-btn" id="start-btn" type="button">Test your knowledge</button>
+    <div id="quiz"></div>
+  </section>
 </footer>
 
 <script>
@@ -321,7 +344,23 @@
 
   const startBtn = document.getElementById('start-btn');
   const quiz = document.getElementById('quiz');
+  const profileImg = document.getElementById('profile-img');
+  const triviaSection = document.getElementById('trivia-section');
+
   let deck = [];
+  let score = 0;
+  let currentQuestionIndex = 0;
+  const totalQuestions = 5;
+
+  profileImg.addEventListener('click', () => {
+    profileImg.classList.add('clicked');
+    setTimeout(() => profileImg.classList.remove('clicked'), 150);
+
+    triviaSection.classList.toggle('revealed');
+    if (triviaSection.classList.contains('revealed')) {
+      triviaSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
 
   function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -331,16 +370,34 @@
     return arr;
   }
 
+  function startQuiz() {
+    startBtn.hidden = true;
+    deck = shuffle(QUESTIONS.map((_, i) => i));
+    score = 0;
+    currentQuestionIndex = 0;
+    nextQuestion();
+  }
+
   function nextQuestion() {
-    if (!deck.length) deck = shuffle(QUESTIONS.map((_, i) => i));
-    const item = QUESTIONS[deck.pop()];
-    const correctText = item.options[item.answer];
-    const choices = shuffle(item.options.slice());
+    if (currentQuestionIndex >= totalQuestions || !deck.length) {
+      showFinalScore();
+      return;
+    }
+
+    currentQueryItem = QUESTIONS[deck.pop()];
+    currentQuestionIndex++;
+    const correctText = currentQueryItem.options[currentQueryItem.answer];
+    const choices = shuffle(currentQueryItem.options.slice());
 
     quiz.textContent = '';
+
+    const scoreDisplay = document.createElement('div');
+    scoreDisplay.className = 'quiz-score';
+    scoreDisplay.textContent = `Question ${currentQuestionIndex} of ${totalQuestions} · Score: ${score}/${currentQuestionIndex - 1}`;
+
     const q = document.createElement('p');
     q.className = 'q';
-    q.textContent = item.q;
+    q.textContent = currentQueryItem.q;
 
     const list = document.createElement('ul');
     list.className = 'opts';
@@ -350,7 +407,7 @@
     const again = document.createElement('button');
     again.className = 'fact-btn';
     again.type = 'button';
-    again.textContent = 'Next question';
+    again.textContent = currentQuestionIndex === totalQuestions ? 'See final score' : 'Next question';
     again.hidden = true;
     again.addEventListener('click', nextQuestion);
 
@@ -366,8 +423,13 @@
           if (o.textContent === correctText) o.classList.add('correct');
         });
         const right = text === correctText;
-        if (!right) b.classList.add('wrong');
-        result.textContent = (right ? 'Correct. ' : 'Not quite. The answer is ' + correctText + '. ') + item.note;
+        if (right) {
+          score++;
+        } else {
+          b.classList.add('wrong');
+        }
+        scoreDisplay.textContent = `Question ${currentQuestionIndex} of ${totalQuestions} · Score: ${score}/${currentQuestionIndex}`;
+        result.textContent = (right ? 'Correct. ' : 'Not quite. The answer is ' + correctText + '. ') + currentQueryItem.note;
         again.hidden = false;
         again.focus();
       });
@@ -375,10 +437,31 @@
       list.append(li);
     });
 
-    quiz.append(q, list, result, again);
+    quiz.append(scoreDisplay, q, list, result, again);
   }
 
-  startBtn.addEventListener('click', () => { startBtn.hidden = true; nextQuestion(); });
+  function showFinalScore() {
+    quiz.textContent = '';
+
+    const finalMsg = document.createElement('p');
+    finalMsg.className = 'q';
+    
+    let feedback = `You finished! Final score: ${score} out of ${totalQuestions}.`;
+    if (score === 5) {
+      feedback += " Perfect score! Outstanding job.";
+    }
+    finalMsg.textContent = feedback;
+
+    const restartBtn = document.createElement('button');
+    restartBtn.className = 'fact-btn';
+    restartBtn.type = 'button';
+    restartBtn.textContent = 'Play again';
+    restartBtn.addEventListener('click', startQuiz);
+
+    quiz.append(finalMsg, restartBtn);
+  }
+
+  startBtn.addEventListener('click', startQuiz);
 </script>
 </body>
 </html>
