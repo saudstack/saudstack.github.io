@@ -1,3 +1,1 @@
-# saudstack.github.io
-
-A plain portfolio site
+A simple portfolio site
