@@ -150,11 +150,17 @@
   .aside-note { margin: -.5rem 0 1.25rem; color: var(--gray); font-style: italic; }
 
   footer { margin-top: 4rem; padding-bottom: 2.5rem; text-align: center; }
+
+  /* Face: ~60% of the width on phones, centered; one third of the content width from 576px up.
+     Square, never overflows, and space is reserved before it loads (no layout shift). */
   .me {
     display: block;
-    width: 11rem;
+    width: calc(60% - .6rem);
+    max-width: 100%;
     height: auto;
-    margin: 0 auto .75rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin: 0 auto 1.5rem;
     cursor: pointer;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
@@ -163,6 +169,9 @@
   }
   .me.clicked {
     transform: scale(0.92);
+  }
+  @media (min-width: 576px) {
+    .me { width: calc(33.333% - 1rem); }
   }
 
   /* ---------- Tablet and up ---------- */
@@ -182,7 +191,6 @@
     .lede { max-width: 24rem; font-size: 1.35rem; }
     .info { max-width: 26rem; }
     .info .mail { font-size: 1.7rem; }
-    .me { width: 13.5rem; }
     .wrap { max-width: 64rem; margin-left: auto; margin-right: auto; padding: 0 var(--pad); }
     section { margin-top: 6rem; }
     .row { grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: .5rem 2rem; }
@@ -239,7 +247,7 @@
 </main>
 
 <footer class="wrap">
-  <img class="me" id="profile-img" src="saud.png" alt="Saud Mukri" width="1254" height="1254" title="Click me">
+  <img class="me" id="profile-img" src="saud.png" alt="Saud Mukri" width="1254" height="1254" decoding="async" title="Click me">
   
   <section class="aside" id="trivia-section" aria-labelledby="fact-h">
     <h2 id="fact-h">Random trivia</h2>
@@ -348,6 +356,7 @@
   const triviaSection = document.getElementById('trivia-section');
 
   let deck = [];
+  let currentQueryItem;
   let score = 0;
   let currentQuestionIndex = 0;
   const totalQuestions = 5;
