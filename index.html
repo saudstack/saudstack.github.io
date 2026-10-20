@@ -151,16 +151,18 @@
 
   footer { margin-top: 4rem; padding-bottom: 2.5rem; text-align: center; }
 
-  /* Face: ~60% of the width on phones, centered; one third of the content width from 576px up.
-     Square, never overflows, and space is reserved before it loads (no layout shift). */
+  /* Intro: photo + About, laid out like a 12-column grid.
+     Phones: photo above the text, centered, ~60% of the width.
+     576px and up: photo in the left third, text in the right two thirds. */
+  .intro { display: grid; gap: 1.5rem; }
+  .face-col { width: calc(60% - .6rem); margin: 0 auto; }
   .me {
     display: block;
-    width: calc(60% - .6rem);
+    width: 100%;
     max-width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    margin: 0 auto 1.5rem;
     cursor: pointer;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
@@ -170,8 +172,15 @@
   .me.clicked {
     transform: scale(0.92);
   }
+  .intro .about-text h2 { margin-top: 0; }
+
   @media (min-width: 576px) {
-    .me { width: calc(33.333% - 1rem); }
+    .intro {
+      grid-template-columns: repeat(12, 1fr);
+      align-items: start;
+    }
+    .face-col { grid-column: span 4; width: auto; margin: 0; }
+    .about-text { grid-column: span 8; }
   }
 
   /* ---------- Tablet and up ---------- */
@@ -215,10 +224,15 @@
 
 <main class="wrap">
 
-  <section class="about" aria-labelledby="about">
-    <h2 id="about">About</h2>
-    <p>I turn messy operational problems into working systems: CRM setups, tracking and reporting, SEO and paid campaigns. I have five years across business development and digital marketing, a BSc in Information Technology and an MBA in Digital &amp; Telecom Management.</p>
-    <p>Lately I build small tools with AI, mostly for the marketing and analytics work I already do.</p>
+  <section class="about intro" aria-labelledby="about">
+    <div class="face-col">
+      <img class="me" id="profile-img" src="saud.png" alt="Saud Mukri" width="1254" height="1254" decoding="async" title="Click me">
+    </div>
+    <div class="about-text">
+      <h2 id="about">About</h2>
+      <p>I turn messy operational problems into working systems: CRM setups, tracking and reporting, SEO and paid campaigns. I have five years across business development and digital marketing, a BSc in Information Technology and an MBA in Digital &amp; Telecom Management.</p>
+      <p>Lately I build small tools with AI, mostly for the marketing and analytics work I already do.</p>
+    </div>
   </section>
 
   <section aria-labelledby="work">
@@ -247,8 +261,6 @@
 </main>
 
 <footer class="wrap">
-  <img class="me" id="profile-img" src="saud.png" alt="Saud Mukri" width="1254" height="1254" decoding="async" title="Click me">
-  
   <section class="aside" id="trivia-section" aria-labelledby="fact-h">
     <h2 id="fact-h">Random trivia</h2>
     <p class="aside-note">A quick 5-question quiz, shuffled each time.</p>
